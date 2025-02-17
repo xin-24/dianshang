@@ -117,5 +117,5 @@ user.Mobile=req.Mobile
 user.NickName=req.NickName//初始化昵称为前端的
 
 //密码加密
-
+//测试
 }
