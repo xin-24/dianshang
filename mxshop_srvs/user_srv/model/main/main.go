@@ -63,7 +63,7 @@ func main() {
 	// fmt.Println(check) // true
 
 	// Using custom options
-	options := &password.Options{10, 100, 32, sha512.New}
+	options := &password.Options{16, 100, 32, sha512.New}
 	salt, encodedPwd := password.Encode("generic password", options)
 	newPassword:=fmt.Sprintf("$pbkdf2-sha512$%s$%s",salt,encodedPwd)
 	fmt.Println(len(newPassword))
