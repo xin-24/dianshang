@@ -159,7 +159,7 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *proto.UpdateUserInfo) 
 	user.Birthday = &birthDay
 	user.Gender = req.Gender
 
-	result = global.DB.Save(user)
+	result = global.DB.Save(&user)
 	//没有保存成功说明是数据库有问题
 	if result.Error != nil {
 		return nil, status.Error(codes.Internal, result.Error.Error())
