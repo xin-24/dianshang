@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	
+	"time"
 
 	"github.com/xin-24/go/mxshop_srvs/user_srv/proto"
 	"google.golang.org/grpc"
@@ -14,7 +14,7 @@ var conn *grpc.ClientConn
 
 func Init() {
 	var err error
-	conn, err = grpc.Dial("192.168.129.149:50051", grpc.WithInsecure())
+	conn, err = grpc.Dial("0.0.0.0:50051", grpc.WithInsecure(), grpc.WithTimeout(10*time.Second))
 	if err != nil {
 		panic(err)
 	}
@@ -28,7 +28,8 @@ func TestGetUserList() {
 		PSize: 5,
 	})
 	if err != nil {
-		panic(err)
+		fmt.Printf("failed to get user list: %v\n", err)
+		return
 	}
 	for _, user := range rsp.Data {
 		fmt.Println(user.Mobile, user.NickName, user.PassWord)
