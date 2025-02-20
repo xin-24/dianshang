@@ -44,8 +44,65 @@ func TestGetUserList() {
 	}
 
 }
+
+//测试创建用户
+func TestCreakUser(){
+	for i:=0;i<10;i++{
+		rsp,err:=userClient.CreateUser(context.Background(),&proto.CreateUserInfo{
+			NickName: fmt.Sprintf("bobby%d", i),
+			Mobile:   fmt.Sprintf("1461874881%d", i),
+			PassWord: "admin123",
+		})
+		if err!=nil{
+			panic(err)
+		}
+		fmt.Println(rsp.Id)
+	}
+}
+//测试手机号查询
+func TestGetUserByMobile1(){
+	for i:=0;i<30;i++{
+	rsp,err:=userClient.GetUserMobile(context.Background(),&proto. MobileRequest{
+		Mobile:"14618748810",
+	})
+	if err!=nil{
+		panic(err)
+	}
+	if rsp!=nil{
+		fmt.Println(rsp.Id)
+	}else{
+		fmt.Println("该号码不存在")
+	}
+	}
+}
+func TestGetUserByMobile() {
+    var rsp *proto.UserInfoResponse
+    var err error
+    maxRetries := 3
+    for i := 0; i < maxRetries; i++ {
+        rsp, err = userClient.GetUserMobile(context.Background(), &proto.MobileRequest{
+            Mobile: "14618748810",
+        })
+        if err == nil {
+            break
+        }
+        fmt.Printf("Retry %d: %v\n", i+1, err)
+        time.Sleep(2 * time.Second)
+    }
+    if err != nil {
+        panic(err)
+    }
+    if rsp != nil {
+        fmt.Println(rsp.Id)
+    } else {
+        fmt.Println("该号码不存在")
+    }
+}
 func main() {
 	Init()
-	TestGetUserList()
+
+	// TestGetUserList()
+    // TestCreakUser()
+	// TestGetUserByMobile()//可能服务器资源耗尽运行之后服务器关闭了？？？
 	conn.Close()
 }
