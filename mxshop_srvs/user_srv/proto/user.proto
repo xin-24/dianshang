@@ -56,7 +56,7 @@ message UserInfoResponse{
     string nickName=4;
     uint64 birthDay=5;
     string gender=6;
-int32 role =7;
+    int32 role =7;
 
 }
 message UserListResponse{
