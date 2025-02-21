@@ -59,6 +59,7 @@ func ModelToRsponse(user model.User) proto.UserInfoResponse {
 		PassWord: user.PassWord, //改了proto还是错了？？？//成功改了model/user.go中的PassWord
 		NickName: user.NickName,
 		Gender:   user.Gender,
+		Mobile: user.Mobile,
 		Role:     int32(user.Role),
 	}
 	if user.Birthday != nil {
@@ -95,9 +96,9 @@ func (s *UserServer) GetUserByMobile(ctx context.Context, req *proto.MobileReque
 	if result.RowsAffected == 0 {
 		return nil, status.Errorf(codes.NotFound, "用户不存在") //返回grpc状态码
 	}
-	if result.Error != nil {
+	if result.Error != nil && result.RowsAffected != 0 {
 		return nil, result.Error
-	}
+	}	
 	userInfoRsp := ModelToRsponse(user)
 	return &userInfoRsp, nil
 

@@ -66,20 +66,18 @@ func TestCreakUser(){
 	}
 }
 //测试手机号查询
-// 测试手机号查询
 func TestGetUserByMobile() {
 	rsp, err := userClient.GetUserMobile(context.Background(), &proto.MobileRequest{
 		Mobile: "14618748819",
 	})
 	if err != nil {
 		fmt.Println("查询用户时发生错误:", err)
-		return
+		
 	}
 	if rsp == nil {
 		fmt.Println("未找到该手机号对应的用户")
-		return
 	}
-	fmt.Println(rsp.Id, rsp.NickName, rsp.Mobile)
+	fmt.Println(rsp.Id, rsp.NickName)
 }
 
 //通过id查询
@@ -92,7 +90,7 @@ func TestGetUserById() {
 		return
 	}
 	if rsp == nil {
-		fmt.Println("未找到该手机号对应的用户")
+		fmt.Println("未找到该Id对应的用户")
 		return
 	}
 	fmt.Println(rsp.Id, rsp.NickName, rsp.Mobile,rsp.PassWord)
@@ -148,9 +146,9 @@ func TestUpdateUser(){
 func main() {
 	Init()
 
-	 TestGetUserList()
+	//  TestGetUserList()
     // TestCreakUser()
-	// TestGetUserByMobile()
+	TestGetUserByMobile()
 	// TestGetUserById()
 	// TestUpdateUser()
 	conn.Close()
