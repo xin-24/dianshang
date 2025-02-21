@@ -150,7 +150,7 @@ func main() {
 
 	 TestGetUserList()
     // TestCreakUser()
-	// TestGetUserByMobile()//可能服务器资源耗尽运行之后服务器关闭了？？？
+	// TestGetUserByMobile()
 	// TestGetUserById()
 	// TestUpdateUser()
 	conn.Close()
