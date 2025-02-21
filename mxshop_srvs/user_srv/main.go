@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/xin-24/go/mxshop_srvs/user_srv/handler"
-	"github.com/xin-24/go/mxshop_srvs/user_srv/proto"
+	// "mxshop_srvs/user_srv/handler"
+	// "mxshop_srvs/user_srv/proto"
+	"github.com/xin-24/go/user_srv/handler"
+	"github.com/xin-24/go/user_srv/proto"
 	"google.golang.org/grpc"
 )
 

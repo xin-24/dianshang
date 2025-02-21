@@ -11,8 +11,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/xin-24/go/user_srv/model"
+
 	"github.com/anaskhan96/go-password-encoder"
-	"github.com/xin-24/go/mxshop_srvs/user_srv/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

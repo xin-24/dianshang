@@ -12,17 +12,19 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/xin-24/go/user_srv/global"
+	"github.com/xin-24/go/user_srv/model"
+	"github.com/xin-24/go/user_srv/proto"
+
 	"github.com/anaskhan96/go-password-encoder"
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/xin-24/go/mxshop_srvs/user_srv/global"
-	"github.com/xin-24/go/mxshop_srvs/user_srv/model"
-	"github.com/xin-24/go/mxshop_srvs/user_srv/proto"
 )
-//这是 gRPC Go 的一个强制性要求，用于确保服务实现遵循正确的模式。
-//新版本go需要这个
+
+// 这是 gRPC Go 的一个强制性要求，用于确保服务实现遵循正确的模式。
+// 新版本go需要这个
 // mustEmbedUnimplementedUserServer implements proto.UserServer.
 type UserServer struct {
-    proto.UnimplementedUserServer // 嵌入 UnimplementedUserServer
+	proto.UnimplementedUserServer // 嵌入 UnimplementedUserServer
 }
 
 // 分页
@@ -54,7 +56,7 @@ func ModelToRsponse(user model.User) proto.UserInfoResponse {
 		PassWord: user.PassWord, //改了proto还是错了？？？//成功改了model/user.go中的PassWord
 		NickName: user.NickName,
 		Gender:   user.Gender,
-		Mobile: user.Mobile,
+		Mobile:   user.Mobile,
 		Role:     int32(user.Role),
 	}
 	if user.Birthday != nil {
@@ -93,7 +95,7 @@ func (s *UserServer) GetUserByMobile(ctx context.Context, req *proto.MobileReque
 	}
 	if result.Error != nil && result.RowsAffected != 0 {
 		return nil, result.Error
-	}	
+	}
 	userInfoRsp := ModelToRsponse(user)
 	return &userInfoRsp, nil
 
