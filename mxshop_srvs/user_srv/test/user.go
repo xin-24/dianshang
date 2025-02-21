@@ -67,7 +67,7 @@ func TestCreakUser(){
 }
 //测试手机号查询
 func TestGetUserByMobile() {
-	rsp, err := userClient.GetUserMobile(context.Background(), &proto.MobileRequest{
+	rsp, err := userClient.GetUserByMobile(context.Background(), &proto.MobileRequest{
 		Mobile: "14618748819",
 	})
 	if err != nil {

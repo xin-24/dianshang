@@ -20,22 +20,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_GetUserList_FullMethodName   = "/User/GetUserList"
-	User_GetUserMobile_FullMethodName = "/User/GetUserMobile"
-	User_GetUserById_FullMethodName   = "/User/GetUserById"
-	User_CreateUser_FullMethodName    = "/User/CreateUser"
-	User_UpdateUser_FullMethodName    = "/User/UpdateUser"
-	User_CheckPassWord_FullMethodName = "/User/CheckPassWord"
+	User_GetUserList_FullMethodName     = "/User/GetUserList"
+	User_GetUserByMobile_FullMethodName = "/User/GetUserByMobile"
+	User_GetUserById_FullMethodName     = "/User/GetUserById"
+	User_CreateUser_FullMethodName      = "/User/CreateUser"
+	User_UpdateUser_FullMethodName      = "/User/UpdateUser"
+	User_CheckPassWord_FullMethodName   = "/User/CheckPassWord"
 )
 
 // UserClient is the client API for User service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// protoc -I . 文件名.proto --go_out=. --go-grpc_out=.
+// 关于为什么会生成两个go语言原因
+// 早期的 --go_out=plugins=grpc 已被废弃，现在推荐使用 --go_out 和 --go-grpc_out 分别生成。
+// 文件名.pb.go：包含 Protocol Buffers 的消息定义和序列化代码。
+// 文件名_grpc.pb.go：包含 gRPC 的服务接口和客户端存根代码。
 type UserClient interface {
 	GetUserList(ctx context.Context, in *PageInfo, opts ...grpc.CallOption) (*UserListResponse, error)
-	GetUserMobile(ctx context.Context, in *MobileRequest, opts ...grpc.CallOption) (*UserInfoResponse, error)
+	GetUserByMobile(ctx context.Context, in *MobileRequest, opts ...grpc.CallOption) (*UserInfoResponse, error)
 	GetUserById(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*UserInfoResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserInfo, opts ...grpc.CallOption) (*UserInfoResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserInfo, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -60,10 +63,10 @@ func (c *userClient) GetUserList(ctx context.Context, in *PageInfo, opts ...grpc
 	return out, nil
 }
 
-func (c *userClient) GetUserMobile(ctx context.Context, in *MobileRequest, opts ...grpc.CallOption) (*UserInfoResponse, error) {
+func (c *userClient) GetUserByMobile(ctx context.Context, in *MobileRequest, opts ...grpc.CallOption) (*UserInfoResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserInfoResponse)
-	err := c.cc.Invoke(ctx, User_GetUserMobile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, User_GetUserByMobile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,10 +117,13 @@ func (c *userClient) CheckPassWord(ctx context.Context, in *PasswordCheckInfo, o
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 //
-// protoc -I . 文件名.proto --go_out=. --go-grpc_out=.
+// 关于为什么会生成两个go语言原因
+// 早期的 --go_out=plugins=grpc 已被废弃，现在推荐使用 --go_out 和 --go-grpc_out 分别生成。
+// 文件名.pb.go：包含 Protocol Buffers 的消息定义和序列化代码。
+// 文件名_grpc.pb.go：包含 gRPC 的服务接口和客户端存根代码。
 type UserServer interface {
 	GetUserList(context.Context, *PageInfo) (*UserListResponse, error)
-	GetUserMobile(context.Context, *MobileRequest) (*UserInfoResponse, error)
+	GetUserByMobile(context.Context, *MobileRequest) (*UserInfoResponse, error)
 	GetUserById(context.Context, *IdRequest) (*UserInfoResponse, error)
 	CreateUser(context.Context, *CreateUserInfo) (*UserInfoResponse, error)
 	UpdateUser(context.Context, *UpdateUserInfo) (*emptypb.Empty, error)
@@ -135,8 +141,8 @@ type UnimplementedUserServer struct{}
 func (UnimplementedUserServer) GetUserList(context.Context, *PageInfo) (*UserListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
 }
-func (UnimplementedUserServer) GetUserMobile(context.Context, *MobileRequest) (*UserInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserMobile not implemented")
+func (UnimplementedUserServer) GetUserByMobile(context.Context, *MobileRequest) (*UserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByMobile not implemented")
 }
 func (UnimplementedUserServer) GetUserById(context.Context, *IdRequest) (*UserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
@@ -189,20 +195,20 @@ func _User_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_GetUserMobile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _User_GetUserByMobile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MobileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).GetUserMobile(ctx, in)
+		return srv.(UserServer).GetUserByMobile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_GetUserMobile_FullMethodName,
+		FullMethod: User_GetUserByMobile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserMobile(ctx, req.(*MobileRequest))
+		return srv.(UserServer).GetUserByMobile(ctx, req.(*MobileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -291,8 +297,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_GetUserList_Handler,
 		},
 		{
-			MethodName: "GetUserMobile",
-			Handler:    _User_GetUserMobile_Handler,
+			MethodName: "GetUserByMobile",
+			Handler:    _User_GetUserByMobile_Handler,
 		},
 		{
 			MethodName: "GetUserById",

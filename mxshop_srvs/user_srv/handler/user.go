@@ -25,11 +25,6 @@ type UserServer struct {
     proto.UnimplementedUserServer // 嵌入 UnimplementedUserServer
 }
 
-// GetUserMobile 实现了 proto.UserServer 接口
-func (s *UserServer) GetUserMobile(ctx context.Context, req *proto.MobileRequest) (*proto.UserInfoResponse, error) {
-    // 实现逻辑
-    panic("unimplemented")
-}
 // 分页
 func Paginate(page, pageSize int) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
